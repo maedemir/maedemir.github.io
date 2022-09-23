@@ -1,0 +1,23 @@
+/* @media(max-width: 800px) {
+    .floatRight{
+        visibility: hidden;
+    }
+  } */
+  @media(max-width: 992px) {
+    .td_top {
+      display: block;
+      margin-bottom: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    table{
+      margin:0 auto;
+    }
+    .resume-item{
+        margin-left: 10px;
+    }
+    .floatRight{
+        margin-right: 0px;
+    }
+
+  }

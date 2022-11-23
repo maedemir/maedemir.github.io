@@ -1,0 +1,19 @@
+body{
+    background-color: rgb(211, 202, 199);
+}
+.center {
+    /* margin-left: auto;
+    margin-right: auto; */
+    border-spacing: 65px;
+}
+@media(max-width: 992px) {
+    .td_top {
+      display: block;
+      margin-bottom: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    table{
+      margin:0 auto;
+    }
+  }

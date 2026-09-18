@@ -80,7 +80,7 @@ code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .qa-flag.missing { background: #f8e6d8; }
 .qa-flag.ready { background: var(--teal-soft); }
 
-.layout { display: grid; grid-template-columns: 250px 1fr; gap: 22px; }
+.layout { display: grid; grid-template-columns: 250px 1fr; gap: 22px; align-items: start; }
 .filters {
   background: var(--card);
   border: 1px solid var(--ink);
@@ -89,6 +89,7 @@ code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   position: sticky;
   top: 12px;
   height: fit-content;
+  z-index: 1;
 }
 .filters fieldset { border: 0; padding: 0; margin: 0 0 12px; }
 .filters legend, .search-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
@@ -160,7 +161,16 @@ button, .btn {
 .answer.degraded { border-top-color: var(--amber); }
 .answer-body { white-space: pre-wrap; }
 .mode { font-size: 13px; color: var(--muted); }
-.foot { margin-top: 36px; color: var(--muted); font-size: 13px; }
+.foot {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+}
 .crumb { color: var(--muted); }
 .ask-form textarea { display: block; min-height: 110px; }
 .ask-form button { margin-top: 10px; }

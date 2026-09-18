@@ -1,0 +1,8 @@
+[Unit]
+Description=Spatial omics literature ingest
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/spatial-omics-litdb
+EnvironmentFile=/opt/spatial-omics-litdb/.env
+ExecStart=/opt/spatial-omics-litdb/.venv/bin/python -m spatial_omics_litdb.cli ingest --preprint-days 3

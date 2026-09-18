@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ paper.title }} · Spatial Omics LitDB{% endblock %}
+{% block content %}
+<article class="paper">
+  <p class="crumb"><a href="/">Dashboard</a> / paper</p>
+  <div class="chips">
+    <span class="chip modality-{{ paper.modality }}">{{ paper.modality }}</span>
+    {% for p in paper.platforms %}
+    <span class="chip">{{ p }}</span>
+    {% endfor %}
+    <span class="chip">{{ paper.resolution }}</span>
+    <span class="chip">{{ paper.study_type }}</span>
+    {% if paper.is_oa %}<span class="chip oa">OA</span>{% else %}<span class="chip closed">Access needed</span>{% endif %}
+    <span class="chip">{{ "preprint" if paper.is_preprint else "journal" }}</span>
+  </div>
+  <h1>{{ paper.title }}</h1>
+  <p class="byline">
+    {{ paper.authors | join(", ") if paper.authors else "Authors not listed" }}
+  </p>
+  <p class="meta">{{ paper.venue or "Unknown venue" }} · {{ paper.year or "n.d." }}
+    {% if paper.published_date %} · {{ paper.published_date }}{% endif %}
+  </p>
+
+  <div class="actions">
+    {% if paper.landing_url %}<a class="btn" href="{{ paper.landing_url }}" rel="noopener">Publisher / landing page</a>{% endif %}
+    {% if paper.doi %}<a class="btn" href="https://doi.org/{{ paper.doi }}" rel="noopener">doi:{{ paper.doi }}</a>{% endif %}
+    {% if paper.pdf_url and paper.is_oa %}<a class="btn primary" href="{{ paper.pdf_url }}" rel="noopener">OA PDF</a>{% endif %}
+    {% if paper.pmid %}<a class="btn" href="https://pubmed.ncbi.nlm.nih.gov/{{ paper.pmid }}/" rel="noopener">PubMed</a>{% endif %}
+  </div>
+
+  {% if paper.access_needed %}
+  <p class="notice">No open-access PDF was found (Unpaywall / publisher OA / preprint server). Metadata is stored; the PDF is not downloaded. Use a UBC-networked machine if you later need licensed access — this app never stores CWL passwords.</p>
+  {% endif %}
+
+  <section>
+    <h2>Abstract</h2>
+    <p>{{ paper.abstract or "No abstract stored." }}</p>
+  </section>
+
+  <section class="facts">
+    <div><h3>Organism</h3><p>{{ paper.organism or "Not extracted" }}</p></div>
+    <div><h3>Tissue</h3><p>{{ paper.tissue or "Not extracted" }}</p></div>
+    <div><h3>Disease / system</h3><p>{{ paper.disease_or_system or "Not extracted" }}</p></div>
+    <div><h3>Data</h3><p>{{ paper.data_availability or "Not mentioned in abstract" }}</p></div>
+    <div><h3>Code</h3><p>{{ paper.code_availability or "Not mentioned in abstract" }}</p></div>
+    <div><h3>Sources</h3><p>{{ paper.sources | join(", ") }}</p></div>
+  </section>
+
+  <section>
+    <h2>Impactful experiments</h2>
+    <p>{{ paper.impactful_experiments or "—" }}</p>
+  </section>
+  <section>
+    <h2>Novel approaches</h2>
+    <p>{{ paper.novel_approaches or "—" }}</p>
+  </section>
+  <section class="seed">
+    <h2>Why it matters for a new project</h2>
+    <p>{{ paper.why_it_matters or "—" }}</p>
+  </section>
+
+  <p class="ask-link">Ask PaperQA2 over stored OA full text: <a href="/ask">corpus Q&amp;A</a>.</p>
+</article>
+{% endblock %}

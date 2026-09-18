@@ -1,0 +1,28 @@
+# Optional: GitHub Actions can trigger ingest, but the SQLite file lives on
+# a persistent host. Prefer crontab/systemd on the VM that serves the dashboard.
+# If you use this workflow, set the repository secrets OPENAI_API_KEY (optional)
+# and INGEST_WEBHOOK_URL / INGEST_TOKEN so the runner calls the always-on app.
+
+name: Nightly ingest trigger
+
+on:
+  schedule:
+    - cron: "15 9 * * *"
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call ingest endpoint on the lab host
+        env:
+          INGEST_WEBHOOK_URL: ${{ secrets.INGEST_WEBHOOK_URL }}
+          INGEST_TOKEN: ${{ secrets.INGEST_TOKEN }}
+        run: |
+          if [ -z "$INGEST_WEBHOOK_URL" ]; then
+            echo "No INGEST_WEBHOOK_URL secret; skipping. Run scripts/nightly_ingest.sh on the VM instead."
+            exit 0
+          fi
+          curl -fsS -X POST "$INGEST_WEBHOOK_URL" \
+            -H "Authorization: Bearer $INGEST_TOKEN" \
+            -H "Content-Type: application/json"

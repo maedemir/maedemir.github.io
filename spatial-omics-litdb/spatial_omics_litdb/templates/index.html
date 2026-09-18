@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Spatial Omics LitDB{% endblock %}
+{% block content %}
+<div class="layout">
+  <aside class="filters">
+    <form method="get" action="/" id="filter-form">
+      <label class="search-label">Search
+        <input type="search" name="q" value="{{ filters.q or '' }}" placeholder="Title, abstract, platform, tissue">
+      </label>
+
+      <fieldset>
+        <legend>Modality</legend>
+        <select name="modality">
+          <option value="">Any</option>
+          {% for item in stats.modalities %}
+          <option value="{{ item }}" {% if filters.modality == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Platform</legend>
+        <select name="platform">
+          <option value="">Any</option>
+          {% for item in stats.platforms %}
+          <option value="{{ item }}" {% if filters.platform == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Resolution</legend>
+        <select name="resolution">
+          <option value="">Any</option>
+          {% for item in stats.resolutions %}
+          <option value="{{ item }}" {% if filters.resolution == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Study type</legend>
+        <select name="study_type">
+          <option value="">Any</option>
+          {% for item in stats.study_types %}
+          <option value="{{ item }}" {% if filters.study_type == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Access</legend>
+        <select name="access">
+          <option value="">Any</option>
+          <option value="oa" {% if filters.access == 'oa' %}selected{% endif %}>Open access</option>
+          <option value="needed" {% if filters.access == 'needed' %}selected{% endif %}>Access needed</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Record</legend>
+        <select name="record_type">
+          <option value="">Any</option>
+          <option value="journal" {% if filters.record_type == 'journal' %}selected{% endif %}>Journal</option>
+          <option value="preprint" {% if filters.record_type == 'preprint' %}selected{% endif %}>Preprint</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Organism</legend>
+        <select name="organism">
+          <option value="">Any</option>
+          {% for item in stats.organisms %}
+          <option value="{{ item }}" {% if filters.organism == item %}selected{% endif %}>{{ item }}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+
+      <div class="filter-actions">
+        <button type="submit">Apply filters</button>
+        <a class="text-btn" href="/">Clear</a>
+      </div>
+    </form>
+  </aside>
+
+  <main>
+    {% if stats.total == 0 %}
+    <div class="empty" id="empty-state">
+      <h1>No papers in the local corpus yet</h1>
+      <p>The dashboard is running. Load demo records (no OpenAI key required) or run nightly discovery from OpenAlex, PubMed, and bioRxiv/medRxiv.</p>
+      <pre>python -m spatial_omics_litdb.cli seed --reset
+python -m spatial_omics_litdb.cli ingest --preprint-days 3</pre>
+    </div>
+    {% elif total == 0 %}
+    <div class="empty" id="empty-filters">
+      <h1>No papers match these filters</h1>
+      <p>Try clearing search or widening modality / platform.</p>
+      <a class="text-btn" href="/">Reset filters</a>
+    </div>
+    {% else %}
+    <div class="result-meta">
+      <h1>{{ total }} paper{% if total != 1 %}s{% endif %}</h1>
+      <p>Spatial transcriptomics and spatial proteomics · journals and preprints</p>
+    </div>
+    <ol class="cards">
+      {% for paper in papers %}
+      <li class="card">
+        <a href="/papers/{{ paper.id }}">
+          <div class="chips">
+            <span class="chip modality-{{ paper.modality }}">{{ paper.modality }}</span>
+            {% for p in paper.platforms[:3] %}
+            <span class="chip">{{ p }}</span>
+            {% endfor %}
+            <span class="chip">{{ paper.resolution }}</span>
+            {% if paper.is_oa %}
+            <span class="chip oa">OA</span>
+            {% else %}
+            <span class="chip closed">Access needed</span>
+            {% endif %}
+            <span class="chip">{{ paper.record_type }}</span>
+          </div>
+          <h2>{{ paper.title }}</h2>
+          <p class="meta">{{ paper.venue or "Unknown venue" }} · {{ paper.year or "n.d." }} · {{ paper.study_type }}</p>
+          <p class="why">{{ paper.why_it_matters }}</p>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+    {% if pages > 1 %}
+    <nav class="pager">
+      {% if page > 1 %}<a href="{{ page_url(page - 1) }}">Previous</a>{% endif %}
+      <span>Page {{ page }} of {{ pages }}</span>
+      {% if page < pages %}<a href="{{ page_url(page + 1) }}">Next</a>{% endif %}
+    </nav>
+    {% endif %}
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

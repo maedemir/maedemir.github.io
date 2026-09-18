@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Ask the corpus · Spatial Omics LitDB{% endblock %}
+{% block content %}
+<section class="ask">
+  <h1>Ask the stored corpus</h1>
+  <p>FutureHouse PaperQA2 reads OA PDFs in <code>data/pdfs</code>. Without <code>OPENAI_API_KEY</code>, this page falls back to keyword search over titles and abstracts.</p>
+
+  {% if not has_openai %}
+  <p class="notice" id="qa-degraded">OpenAI key is not configured. Add <code>OPENAI_API_KEY</code> to <code>.env</code> and install <code>pip install -e ".[qa]"</code> to enable PaperQA2.</p>
+  {% endif %}
+
+  <form method="post" action="/ask" class="ask-form">
+    <label>Question
+      <textarea name="question" rows="4" required minlength="3" placeholder="Which 2025 Visium HD studies profile human tumors?">{{ question }}</textarea>
+    </label>
+    <button type="submit">Ask</button>
+  </form>
+
+  {% if result %}
+  <article class="answer {% if result.degraded %}degraded{% endif %}" id="qa-result">
+    <p class="mode">Mode: {{ result.mode }}{% if result.degraded %} (graceful fallback){% endif %}</p>
+    <h2>Answer</h2>
+    <pre class="answer-body">{{ result.answer }}</pre>
+    {% if result.context %}
+    <h3>Context</h3>
+    <pre class="answer-body">{{ result.context }}</pre>
+    {% endif %}
+  </article>
+  {% endif %}
+</section>
+{% endblock %}

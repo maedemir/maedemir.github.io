@@ -1,0 +1,78 @@
+"""Controlled vocabulary used on paper pages and filters."""
+
+MODALITIES = ("transcriptomics", "proteomics", "multi-omics", "unknown")
+RESOLUTIONS = ("spot", "single-cell", "subcellular", "unknown")
+STUDY_TYPES = (
+    "methods",
+    "atlas",
+    "computational",
+    "clinical",
+    "review",
+    "unknown",
+)
+RECORD_TYPES = ("journal", "preprint", "other")
+
+# Display order for platform filters. Unknown platforms still store as-is.
+KNOWN_PLATFORMS = (
+    "Visium",
+    "Visium HD",
+    "Stereo-seq",
+    "MERFISH",
+    "MERSCOPE",
+    "CosMx",
+    "Xenium",
+    "CODEX",
+    "PhenoCycler",
+    "IMC",
+    "MIBI",
+    "Slide-seq",
+    "seqFISH",
+    "GeoMx",
+    "DBiT-seq",
+    "MALDI-MSI",
+    "Deep Visual Proteomics",
+)
+
+SCOPE_KEYWORDS = (
+    "spatial transcriptom",
+    "spatially resolved transcriptom",
+    "spatial rna",
+    "spatial gene expression",
+    "in situ transcriptom",
+    "spatial proteom",
+    "spatially resolved proteom",
+    "spatial multi-omic",
+    "spatial multiomic",
+    "spatial omic",
+    "visium",
+    "stereo-seq",
+    "stereoseq",
+    "merfish",
+    "merscope",
+    "seqfish",
+    "osmfish",
+    "cosmx",
+    "xenium",
+    "codex",
+    "phenocycler",
+    "imaging mass cytometry",
+    "hyperion",
+    "mibi-tof",
+    "mibi ",
+    "slide-seq",
+    "slideseq",
+    "dbit-seq",
+    "geomx dsp",
+    "geomx",
+    "nanostring dsp",
+    "starmap",
+    "pixel-seq",
+    "hd st",
+    "high-definition spatial",
+    "maldi imaging",
+    "maldi-msi",
+    "deep visual proteomics",
+    "spatial molecular imaging",
+    "in situ sequencing",
+    "spatial atlas",
+)

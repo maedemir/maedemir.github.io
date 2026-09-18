@@ -1,0 +1,3 @@
+# Nightly discovery at 02:15 local time on the always-on host.
+# Adjust the path to the cloned repository.
+15 2 * * * /path/to/spatial-omics-litdb/scripts/nightly_ingest.sh >> /var/log/spatial-omics-litdb-ingest.log 2>&1

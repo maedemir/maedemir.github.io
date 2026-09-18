@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Spatial Omics LitDB{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="/">
+        <span class="mark" aria-hidden="true"></span>
+        <span>
+          <span class="lab">Mirzazadeh Lab</span>
+          <span class="product">Spatial Omics Literature</span>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="/" class="{% if request.url.path == '/' %}on{% endif %}">Dashboard</a>
+        <a href="/ask" class="{% if request.url.path == '/ask' %}on{% endif %}">Ask the corpus</a>
+        <a href="/api/stats">API</a>
+      </nav>
+    </header>
+
+    <section class="status-strip">
+      <div>
+        <strong>{{ stats.total }}</strong>
+        <span>papers from 2025 onward</span>
+      </div>
+      <div>
+        <strong>{{ stats.oa }}</strong>
+        <span>open access</span>
+      </div>
+      <div>
+        <strong>{{ stats.preprints }}</strong>
+        <span>preprints</span>
+      </div>
+      <div>
+        <strong>{{ stats.access_needed }}</strong>
+        <span>access needed</span>
+      </div>
+      <div class="qa-flag {% if has_openai %}ready{% else %}missing{% endif %}">
+        {% if has_openai %}PaperQA2 ready{% else %}PaperQA2 waiting for OPENAI_API_KEY{% endif %}
+      </div>
+    </section>
+
+    {% block content %}{% endblock %}
+
+    <footer class="foot">
+      OA PDFs only (Unpaywall, publisher OA, bioRxiv/medRxiv). Paywalled items stay as metadata.
+      No UBC/CWL passwords are stored. Nightly ingest: <code>python -m spatial_omics_litdb.cli ingest --preprint-days 3</code>
+    </footer>
+  </div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

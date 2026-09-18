@@ -1,19 +1,237 @@
-body{
-    background-color: rgb(211, 202, 199);
+/* Home — Quiet Signal hero */
+
+.page-home {
+  overflow-x: hidden;
 }
-.center {
-    /* margin-left: auto;
-    margin-right: auto; */
-    border-spacing: 65px;
+
+#hero.hero-quiet {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
 }
-@media(max-width: 992px) {
-    .td_top {
-      display: block;
-      margin-bottom: 20px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    table{
-      margin:0 auto;
-    }
+
+#hero.hero-quiet:before {
+  display: none;
+}
+
+.hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-motif {
+  position: absolute;
+  width: min(72vw, 640px);
+  height: auto;
+  left: -4%;
+  top: 12%;
+  color: var(--accent);
+  opacity: 0.22;
+  animation: motif-drift 28s ease-in-out infinite alternate;
+}
+
+.hero-wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 40%, rgba(26, 107, 107, 0.09), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 70% 80%, rgba(14, 17, 22, 0.05), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='1' cy='1' r='1' fill='%231a6b6b' fill-opacity='0.07'/%3E%3C/svg%3E");
+}
+
+@keyframes motif-drift {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
+  to {
+    transform: translate3d(18px, -14px, 0) rotate(2deg);
+  }
+}
+
+.hero-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: stretch;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding:
+    calc(var(--header-h) + clamp(2rem, 5vh, 4rem))
+    clamp(1.5rem, 5vw, 4.5rem)
+    clamp(2.5rem, 6vh, 4rem)
+    clamp(1.5rem, 5vw, 4.5rem);
+  max-width: 40rem;
+}
+
+.hero-brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 6.75rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+}
+
+.hero-lead {
+  margin: 1.35rem 0 0;
+  max-width: 28rem;
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+#hero .btn-about,
+.hero-actions .btn-about {
+  font-family: var(--font-body);
+  text-transform: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.5rem;
+  border-radius: 2px;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  margin-top: 0;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+#hero .btn-about:hover,
+.hero-actions .btn-about:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--ink);
+  padding: 0.85rem 0.35rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--line);
+  border-radius: 0;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.hero-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  display: block;
+}
+
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg) 0%,
+    rgba(244, 246, 248, 0.35) 18%,
+    transparent 42%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 992px) {
+  .hero-shell {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .hero-visual {
+    min-height: min(68vh, 560px);
+    order: -1;
+  }
+
+  .hero-visual::after {
+    background: linear-gradient(
+      180deg,
+      transparent 45%,
+      var(--bg) 100%
+    );
+  }
+
+  .hero-copy {
+    max-width: none;
+    padding:
+      1.25rem
+      clamp(1.25rem, 5vw, 2rem)
+      clamp(3rem, 8vh, 4.5rem);
+  }
+
+  .hero-brand {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .hero-motif {
+    width: 90vw;
+    top: 4%;
+    left: -10%;
+    opacity: 0.1;
+  }
+
+  #hero.hero-quiet {
+    min-height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-motif {
+    animation: none;
+  }
+
+  #hero .btn-about:hover,
+  .hero-actions .btn-about:hover {
+    transform: none;
+  }
+}

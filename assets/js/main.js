@@ -129,6 +129,22 @@
   }
 
   /**
+   * Home header solidifies on scroll
+   */
+  let headerEl = select('#header');
+  if (headerEl && document.body.classList.contains('page-home')) {
+    const toggleHeader = () => {
+      if (window.scrollY > 24) {
+        headerEl.classList.add('is-scrolled');
+      } else {
+        headerEl.classList.remove('is-scrolled');
+      }
+    };
+    window.addEventListener('load', toggleHeader);
+    onscroll(document, toggleHeader);
+  }
+
+  /**
    * Porfolio isotope and filter
    */
   window.addEventListener('load', () => {
@@ -231,8 +247,8 @@
    */
   window.addEventListener('load', () => {
     AOS.init({
-      duration: 1000,
-      easing: "ease-in-out",
+      duration: 700,
+      easing: "ease-out",
       once: true,
       mirror: false
     });
